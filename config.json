@@ -30,34 +30,30 @@
     {
       "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Tool Sets\\People.btx",
       "Title": "People"
-    },
-    {
-      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Tool Sets\\U Chapter Free Tools\\People_UC2.btx",
-      "Title": "People"
     }
   ],
   "lineSets": [
     {
       "Title": "KNIT Advanced",
-      "Path": "KNIT Advanced.blx"
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Line Styles\\KNIT Advanced.blx"
     },
     {
-      "Title": "Advanced",
-      "Path": "Advanced.blx"
+      "Title": "Utility & Pipe",
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Line Styles\\Fire Separations_Knit.blx"
     },
     {
       "Title": "Fire Separations_Knit",
-      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Line Styles\\Fire Separations_Knit.blx"
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Line Styles\\Utility & Pipe.blx"
     }
   ],
   "hatchSets": [
     {
-      "Title": "Patterns-Knit",
+      "Title": "Patterns-KNIT",
       "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Hatches\\Patterns-KNIT.bhx"
     },
     {
       "Title": "Fire Rated Separations_Knit",
-      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\!DEVELOPMENT\\Hatches\\Fire Rated Separations_Knit.bhx"
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Hatches\\Fire Rated Separations_Knit.bhx"
     }
   ],
   "stampDirectories": [
