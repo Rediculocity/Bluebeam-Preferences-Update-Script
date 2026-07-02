@@ -1,0 +1,226 @@
+╔════════════════════════════════════════════════════════╗
+║                                                        ║
+║       CONFIG.JSON CONFIGURATION GUIDE                 ║
+║                                                        ║
+╚════════════════════════════════════════════════════════╝
+
+This guide explains how to customize the config.json file
+for your organization's specific needs.
+
+═══════════════════════════════════════════════════════════
+1. CUSTOM COLORS
+═══════════════════════════════════════════════════════════
+
+"customColors": {
+  "Color0": -707742,
+  "Color1": -15583652,
+  ...
+  "Count": 16
+}
+
+• Colors are stored as negative integers (ARGB format)
+• Color0 through Color15 = 16 colors total
+• Count must match the number of colors
+
+HOW TO CHANGE COLORS:
+1. In Bluebeam, set up your colors manually
+2. Export preferences and find the CustomColors section
+3. Copy the color values to config.json
+4. OR use a color converter tool (search "RGB to signed int")
+
+═══════════════════════════════════════════════════════════
+2. TOOLSETS
+═══════════════════════════════════════════════════════════
+
+"toolsets": [
+  {
+    "Path": "..\\..\\..\\..\\..\\Knit\\Tool.btx",
+    "Title": "Tool Name"
+  }
+]
+
+• Each toolset has a Path and Title
+• Paths should be RELATIVE from the UserPreferences.xml location
+• Add as many toolsets as needed
+
+HOW MATCHING WORKS:
+The script identifies each toolset by the FILE NAME portion of
+its Path (e.g. "Tool.btx"):
+• No toolset with that file name  -> ADDED
+• Exists with a different path    -> path CORRECTED to config value
+• Exists and matches              -> left alone
+The config is the source of truth. This means an old entry with a
+hardcoded path like C:\Users\jane.doe\...\Tool.btx will be fixed
+automatically instead of duplicated.
+
+EXAMPLE PATHS:
+Relative: ..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Tool Sets\\MyTool.btx
+Absolute: C:\\Company\\Bluebeam\\Tool Sets\\MyTool.btx
+Network:  \\\\server\\share\\Bluebeam\\Tool Sets\\MyTool.btx
+
+═══════════════════════════════════════════════════════════
+3. LINE SETS (applied to every profile)
+═══════════════════════════════════════════════════════════
+
+"lineSets": [
+  {
+    "Title": "KNIT Advanced",
+    "Path": "KNIT Advanced.blx"
+  },
+  {
+    "Title": "Fire Separations_Knit",
+    "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Line Styles\\Fire Separations_Knit.blx"
+  }
+]
+
+• Line sets are written into EVERY profile file (*.bpx) in the
+  Revu folder, under <Record Key="LineSetManager">
+• Built-in profiles (in the _BuiltIn subfolder) are not touched
+• Matching works the same as toolsets: identified by file name,
+  added if missing, repathed if the path differs
+• The built-in "Standard" line set is always preserved
+• Paths can be bare file names (file lives in the Revu folder
+  itself, e.g. "Advanced.blx"), relative paths, or absolute paths
+• Indexes are renumbered automatically
+
+═══════════════════════════════════════════════════════════
+4. HATCH SETS (applied to every profile)
+═══════════════════════════════════════════════════════════
+
+"hatchSets": [
+  {
+    "Title": "Patterns-Knit",
+    "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Hatches\\Patterns-KNIT.bhx"
+  }
+]
+
+• Works exactly like lineSets, but targets
+  <Record Key="HatchSetManager"> and .bhx files
+• The built-in "Standard" hatch set (Standard.bhx) is preserved
+
+═══════════════════════════════════════════════════════════
+5. STAMP DIRECTORIES
+═══════════════════════════════════════════════════════════
+
+"stampDirectories": [
+  "C:\\Users\\{USERNAME}\\Knit\\Stamps + Seals",
+  "\\\\server\\share\\Stamps + Seals",
+  "C:\\ProgramData\\Bluebeam\\Stamps + Seals"
+]
+
+• Listed in PRIORITY ORDER (highest priority first)
+• Script tests each path in order
+• Uses the FIRST accessible path
+• {USERNAME} is automatically replaced with current user
+
+HOW IT WORKS:
+1. Script tests first path - if accessible, use it
+2. If not accessible, try second path
+3. Continue until an accessible path is found
+4. If no paths are accessible, skip stamp directory update
+
+SPECIAL PLACEHOLDER:
+{USERNAME} - Replaced with current user profile path
+  Example: C:\Users\{USERNAME}\Documents
+  Becomes:  C:\Users\john.doe\Documents (local account)
+  Or:       C:\Users\john.doe.DOMAIN\Documents (domain account)
+
+  NOTE: For domain-joined computers, the script automatically uses
+        the correct profile path including the domain suffix.
+
+═══════════════════════════════════════════════════════════
+6. TEMPLATE DIRECTORIES
+═══════════════════════════════════════════════════════════
+
+"templateDirectories": [
+  "C:\\Users\\{USERNAME}\\Knit\\Bluebeam Revu - Resources\\Templates"
+]
+
+• Works exactly like stampDirectories (priority order, first
+  accessible path wins, {USERNAME} supported)
+
+═══════════════════════════════════════════════════════════
+CUSTOMIZATION EXAMPLES
+═══════════════════════════════════════════════════════════
+
+SCENARIO 1: Different permissions by department
+------------------------------------------------------
+Some users have access to Admin share, others don't:
+
+"stampDirectories": [
+  "\\\\server\\AdminShare\\Stamps",      <- Admins only
+  "\\\\server\\StandardShare\\Stamps",   <- Everyone
+  "C:\\ProgramData\\Bluebeam\\Stamps"    <- Local fallback
+]
+
+Result: Admins get priority path, others get standard path
+
+
+SCENARIO 2: OneDrive + Network fallback
+------------------------------------------------------
+Prefer cloud sync, but support non-cloud users:
+
+"stampDirectories": [
+  "C:\\Users\\{USERNAME}\\OneDrive - Company\\Bluebeam\\Stamps",
+  "\\\\fileserver\\departments\\{USERNAME}\\Bluebeam\\Stamps",
+  "C:\\Company\\Bluebeam\\Stamps"
+]
+
+
+SCENARIO 3: Role-based paths
+------------------------------------------------------
+Different roles need different stamp libraries:
+
+Create separate config files:
+- config-architects.json
+- config-engineers.json
+- config-managers.json
+
+Each with different stampDirectories priority
+
+═══════════════════════════════════════════════════════════
+TESTING YOUR CONFIGURATION
+═══════════════════════════════════════════════════════════
+
+1. Edit config.json with your paths
+2. Save the file
+3. Run the script and pick the single option you changed
+   (e.g. option 5 for Line Sets only)
+4. Watch the output - it shows exactly what was added,
+   repathed, or skipped for every file
+5. Verify in Bluebeam:
+   - Open Bluebeam Revu
+   - Check the relevant panel (Line Styles, Hatches, Tool
+     Chest, Stamps, Templates)
+
+Backups are created automatically, so you can always restore
+from the Backups folder if something looks wrong.
+
+═══════════════════════════════════════════════════════════
+TROUBLESHOOTING
+═══════════════════════════════════════════════════════════
+
+PROBLEM: "No accessible stamp directories found"
+SOLUTION:
+  - Check network connectivity
+  - Verify folder permissions
+  - Test paths manually in Windows Explorer
+  - Ensure paths exist before adding to config
+
+PROBLEM: Wrong path is being selected
+SOLUTION:
+  - Reorder stampDirectories array
+  - Most desired path should be FIRST in the list
+
+PROBLEM: {USERNAME} not working
+SOLUTION:
+  - Use double backslashes in JSON: \\
+  - Placeholder is case-sensitive: {USERNAME} not {username}
+
+PROBLEM: A line/hatch set was "repathed" but I wanted to keep
+         the old path
+SOLUTION:
+  - The config path always wins (source of truth)
+  - Update the Path in config.json to the value you want
+
+═══════════════════════════════════════════════════════════

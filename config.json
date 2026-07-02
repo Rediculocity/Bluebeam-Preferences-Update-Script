@@ -1,0 +1,72 @@
+{
+  "customColors": {
+    "Color0": -707742,
+    "Color1": -15583652,
+    "Color2": -12756358,
+    "Color3": -9928809,
+    "Color4": -7101515,
+    "Color5": -4273966,
+    "Color6": -16404506,
+    "Color7": -9556614,
+    "Color8": -6407797,
+    "Color9": -4483391,
+    "Color10": -1542656,
+    "Color11": -18642,
+    "Color12": -661862,
+    "Color13": -16744076,
+    "Color14": -14298205,
+    "Color15": -5379875,
+    "Count": 16
+  },
+  "toolsets": [
+    {
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Tool Sets\\Knit Misc Tools.btx",
+      "Title": "Knit Misc Tools"
+    },
+    {
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Tool Sets\\Detail Library Status.btx",
+      "Title": "Detail Library Status"
+    },
+    {
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Tool Sets\\People.btx",
+      "Title": "People"
+    },
+    {
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Tool Sets\\U Chapter Free Tools\\People_UC2.btx",
+      "Title": "People"
+    }
+  ],
+  "lineSets": [
+    {
+      "Title": "KNIT Advanced",
+      "Path": "KNIT Advanced.blx"
+    },
+    {
+      "Title": "Advanced",
+      "Path": "Advanced.blx"
+    },
+    {
+      "Title": "Fire Separations_Knit",
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Line Styles\\Fire Separations_Knit.blx"
+    }
+  ],
+  "hatchSets": [
+    {
+      "Title": "Patterns-Knit",
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\Hatches\\Patterns-KNIT.bhx"
+    },
+    {
+      "Title": "Fire Rated Separations_Knit",
+      "Path": "..\\..\\..\\..\\..\\Knit\\Bluebeam Revu - Resources\\!DEVELOPMENT\\Hatches\\Fire Rated Separations_Knit.bhx"
+    }
+  ],
+  "stampDirectories": [
+    "C:\\Users\\{USERNAME}\\Knit\\Bluebeam Revu - Resources\\Stamps + Seals",
+    "C:\\Users\\{USERNAME}\\Knit\\Bluebeam Revu - Resources\\Stamps + Signatures",
+    "C:\\Users\\{USERNAME}\\Knit\\Bluebeam Revu - Resources\\Stamps"
+  ],
+  "templateDirectories": [
+    "C:\\Users\\{USERNAME}\\Knit\\Bluebeam Revu - Resources\\Templates"
+  ]
+}
+

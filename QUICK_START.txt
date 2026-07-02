@@ -1,0 +1,78 @@
+╔════════════════════════════════════════════════════════╗
+║                                                        ║
+║     BLUEBEAM PREFERENCES UPDATER - QUICK START        ║
+║                                                        ║
+╚════════════════════════════════════════════════════════╝
+
+┌────────────────────────────────────────────────────────┐
+│  STEP 1: Double-click "Run.bat"                        │
+│          (Script will check if Bluebeam is running)    │
+└────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────┐
+│  STEP 2: Close Bluebeam Revu if prompted               │
+│          (Script auto-detects if it's running)         │
+└────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────┐
+│  STEP 3: Choose what to update:                        │
+│          1 = Colors only                               │
+│          2 = Toolsets only                             │
+│          3 = Stamp Directory only                      │
+│          4 = Template Directory only                   │
+│          5 = Line Sets (all profiles)                  │
+│          6 = Hatch Sets (all profiles)                 │
+│          7 = All of the above                          │
+│          8 = Exit                                      │
+└────────────────────────────────────────────────────────┘
+
+┌────────────────────────────────────────────────────────┐
+│  STEP 4: Done! Changes applied & backups created       │
+└────────────────────────────────────────────────────────┘
+
+
+═══════════════════════════════════════════════════════════
+
+SILENT MODE (for IT deployment):
+
+   Run.bat -All
+
+Applies everything with no prompts. Exit code 0 = success.
+
+═══════════════════════════════════════════════════════════
+
+WHAT THIS TOOL DOES:
+
+✓ Replaces custom color palette in Bluebeam
+✓ Adds missing toolsets / fixes wrong toolset paths
+✓ Updates stamp directory (auto-selects best path for you)
+✓ Updates template directory (auto-selects best path for you)
+✓ Adds missing line sets / fixes wrong paths (every profile)
+✓ Adds missing hatch sets / fixes wrong paths (every profile)
+✓ Creates automatic backup of every file before changes
+✓ Validates saved XML and restores backup if corrupt
+
+═══════════════════════════════════════════════════════════
+
+FILES IN THIS PACKAGE:
+
+Run.bat ................................. Start here! Double-click this
+UpdateBluebeamPreferences.ps1 .......... The main script (PowerShell)
+config.json ............................ All settings definitions
+README.txt ............................. Full documentation
+CONFIG_GUIDE.txt ....................... How to customize config.json
+QUICK_START.txt ........................ This file
+
+═══════════════════════════════════════════════════════════
+
+IMPORTANT NOTES:
+
+✓  Tool auto-detects if Bluebeam Revu is running
+✓  Tool auto-detects your Revu version folder
+✓  Tool works from network locations
+✓  Each user gets their own backups (10 newest kept per file)
+✓  Stamp & template directories auto-detect based on YOUR permissions
+✓  Safe to run multiple times
+✓  Edit config.json to customize settings
+
+═══════════════════════════════════════════════════════════

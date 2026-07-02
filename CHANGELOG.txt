@@ -1,0 +1,213 @@
+╔════════════════════════════════════════════════════════╗
+║                                                        ║
+║       BLUEBEAM PREFERENCES UPDATER - CHANGELOG        ║
+║                                                        ║
+╚════════════════════════════════════════════════════════╝
+
+═══════════════════════════════════════════════════════════
+VERSION 2.0 - Profile Line Sets & Hatch Sets, Major Refactor
+═══════════════════════════════════════════════════════════
+
+NEW FEATURES:
+-------------
+
+✓ LINE SET MANAGEMENT (NEW)
+  • Updates <Record Key="LineSetManager"> in EVERY profile (*.bpx)
+  • Adds missing line sets from config.json ("lineSets" section)
+  • Repaths existing entries whose path differs from config
+  • Preserves the built-in "Standard" line set
+  • Renumbers indexes automatically
+  • Skips built-in profiles (_BuiltIn subfolder)
+
+✓ HATCH SET MANAGEMENT (NEW)
+  • Same behavior as line sets, for
+    <Record Key="HatchSetManager"> ("hatchSets" section)
+
+✓ SILENT / UNATTENDED MODE
+  • Run.bat -All  (or  UpdateBluebeamPreferences.ps1 -All)
+  • Applies every update with no prompts
+  • Exit codes: 0 = success, 1 = error, 2 = Bluebeam running
+  • Suitable for Intune / GPO / login-script deployment
+
+✓ NEW MENU
+  1. Replace Custom Colors
+  2. Update Toolsets
+  3. Update Stamp Directory
+  4. Update Template Directory
+  5. Update Line Sets (all profiles)      <- NEW
+  6. Update Hatch Sets (all profiles)     <- NEW
+  7. All of the above
+  8. Exit
+
+BEHAVIOR CHANGES:
+-----------------
+
+• TOOLSETS NOW REPATH INSTEAD OF DUPLICATE
+  Entries are matched by the file name portion of their Path
+  (e.g. "People.btx"). If a toolset exists with the right file
+  but the wrong folder, its path is corrected to the config
+  value instead of a duplicate being added. The config is the
+  source of truth.
+
+• SMARTER SAVES AND BACKUPS
+  - Files are only backed up and saved when something actually
+    changed (colors are compared before replacing)
+  - Backups are pruned automatically (10 newest kept per file)
+  - Every changed .bpx profile gets its own backup
+
+• REAL XML VALIDATION
+  Saved files are re-parsed after writing; if the result is not
+  valid XML, the backup is restored automatically.
+
+• AUTOMATIC VERSION DETECTION
+  The Revu folder (e.g. ...\Revu\21) is discovered by scanning
+  %APPDATA%\Bluebeam Software\Revu for the newest version that
+  contains UserPreferences.xml, instead of a hardcoded list.
+
+TECHNICAL IMPROVEMENTS:
+-----------------------
+
+• XML loaded via XmlDocument.Load (correct encoding handling)
+• Duplicate stamp/template functions merged into
+  Get-FirstAccessibleDirectory
+• Shared Get-OrCreateRecord / Add-ChildElement helpers
+• Script exits with code 1 on error so Run.bat detects failures
+• Run.bat forwards arguments to the PowerShell script
+
+CONFIGURATION CHANGES:
+----------------------
+
+config.json now includes "lineSets" and "hatchSets" sections:
+
+  "lineSets": [
+    { "Title": "KNIT Advanced", "Path": "KNIT Advanced.blx" },
+    ...
+  ],
+  "hatchSets": [
+    { "Title": "Patterns-Knit", "Path": "..\\..\\..\\..\\..\\Knit\\...\\Patterns-KNIT.bhx" },
+    ...
+  ]
+
+═══════════════════════════════════════════════════════════
+VERSION 1.1 - Stamp Directory Feature
+═══════════════════════════════════════════════════════════
+
+NEW FEATURES:
+-------------
+
+✓ STAMP DIRECTORY MANAGEMENT
+  • Automatically detects accessible stamp directories
+  • Priority-based path selection
+  • Tests each path and uses first accessible one
+  • Supports {USERNAME} placeholder
+  • Updates <Record Key="PreferencesDictionary"><AddStamp><Directory>
+
+✓ EXPANDED MENU OPTIONS
+  Old Menu (3 options):
+    1. Custom Colors
+    2. Toolsets
+    3. Both
+  
+  New Menu (7 options):
+    1. Custom Colors only
+    2. Toolsets only
+    3. Stamp Directory only
+    4. Custom Colors + Toolsets
+    5. Custom Colors + Stamp Directory
+    6. Toolsets + Stamp Directory
+    7. All (Colors, Toolsets, Stamp Directory)
+
+✓ SMART PATH DETECTION
+  • Tests network accessibility before applying
+  • Shows real-time feedback on path testing
+  • Gracefully handles inaccessible paths
+  • Displays old vs new paths for transparency
+
+TECHNICAL IMPROVEMENTS:
+-----------------------
+
+• Test-DirectoryAccessible function
+  - Validates path exists
+  - Verifies read permissions
+  - Handles UNC paths and local paths
+  
+• Get-AccessibleStampDirectory function
+  - Iterates through priority list
+  - Expands {USERNAME} placeholder
+  - Returns first accessible path
+  
+• Update-StampDirectory function
+  - Creates missing XML nodes if needed
+  - Updates existing paths
+  - Reports changes made
+
+CONFIGURATION CHANGES:
+----------------------
+
+config.json now includes:
+  "stampDirectories": [
+    "C:\\Users\\{USERNAME}\\Knit\\Bluebeam Revu - Resources\\Stamps + Seals",
+    "C:\\Users\\{USERNAME}\\OneDrive - Knit\\Bluebeam Revu - Resources\\Stamps + Seals",
+    "\\\\networkshare\\Knit\\Bluebeam Revu - Resources\\Stamps + Seals",
+    "C:\\Knit\\Bluebeam Revu - Resources\\Stamps + Seals"
+  ]
+
+DOCUMENTATION UPDATES:
+----------------------
+
+• README.txt - Updated with stamp directory instructions
+• QUICK_START.txt - Added new menu options
+• CONFIG_GUIDE.txt - NEW comprehensive configuration guide
+• CHANGELOG.txt - This file
+
+═══════════════════════════════════════════════════════════
+VERSION 1.0 - Initial Release
+═══════════════════════════════════════════════════════════
+
+INITIAL FEATURES:
+-----------------
+
+✓ Custom Color Management
+  • Replace entire CustomColors section
+  • 16 colors (Color0-Color15)
+  • ARGB integer format
+
+✓ Toolset Management
+  • Add missing toolsets
+  • Match by Path AND Title
+  • Skip existing toolsets
+  • Support relative and absolute paths
+
+✓ Safety Features
+  • Automatic timestamped backups
+  • XML validation after changes
+  • Error handling with rollback info
+  • Non-destructive (won't remove existing data)
+
+✓ User Experience
+  • Auto-detect UserPreferences.xml location
+  • Interactive menu system
+  • Color-coded output
+  • Clear success/error messages
+
+✓ Deployment
+  • Network-ready (run from shared drives)
+  • No compilation required
+  • PowerShell 5.1+ compatible
+  • Batch file wrapper for easy execution
+
+═══════════════════════════════════════════════════════════
+UPGRADE INSTRUCTIONS
+═══════════════════════════════════════════════════════════
+
+If upgrading from v1.0 to v1.1:
+
+1. Replace UpdateBluebeamPreferences.ps1 with new version
+2. Replace config.json OR manually add "stampDirectories" section
+3. Read CONFIG_GUIDE.txt for customization instructions
+4. Test with option 3 (Stamp Directory only) first
+5. Once verified, use option 7 (All) for full updates
+
+═══════════════════════════════════════════════════════════
+
+
